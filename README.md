@@ -11,7 +11,7 @@ Uses the same auth and API as [tiddl](https://github.com/oskvr37/tiddl), but run
 ## Quick Start
 
 ```bash
-# One-off: export + push to "Deli Mix"
+# One-off: export + push to playlist (default name: "Deli Mix")
 ./run.sh run
 ```
 
@@ -36,7 +36,7 @@ Uses the same auth and API as [tiddl](https://github.com/oskvr37/tiddl), but run
 | `--history` | `data/daily_history.json` | Track selection history (dedup) |
 | `-n, --count` | `100` | Number of tracks in daily selection |
 | `--history-days` | `3` | Days to exclude a previously selected track |
-| `--name` | `Deli Mix` | Tidal playlist name |
+| `--name` | `Deli Mix` | Tidal playlist name (change with `--name "Your Playlist"`) |
 | `--desc` | `...` | Tidal playlist description |
 
 ### Examples

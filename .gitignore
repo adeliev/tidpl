@@ -1,8 +1,11 @@
 # Virtual environment
 .venv/
 
-# Data directory (contains auth.json, history, etc.)
+# Data directory (contains personal config, auth, history)
 data/auth.json
+data/mixes.txt
+data/artist_blocklist.txt
+data/artist_aliases.txt
 data/daily_history.json
 data/all_tracks.txt
 data/DailyTidal.txt
