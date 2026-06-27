@@ -36,6 +36,21 @@ def save_auth(auth_data: AuthData) -> None:
     AUTH_FILE.write_text(auth_data.model_dump_json(), encoding="utf-8")
 
 
+EARLY_EXPIRE_SECONDS = 300
+
+
+def ensure_valid_token(auth_data: AuthData) -> AuthData:
+    if auth_data.refresh_token and auth_data.expires_at:
+        if time() >= auth_data.expires_at - EARLY_EXPIRE_SECONDS:
+            log.info("Token expired or close to expiry — refreshing proactively")
+            auth_api = AuthAPI()
+            resp = auth_api.refresh_token(auth_data.refresh_token)
+            auth_data.token = resp.access_token
+            auth_data.expires_at = resp.expires_in + int(time())
+            save_auth(auth_data)
+    return auth_data
+
+
 def make_api(auth_data: AuthData | None = None) -> TidalAPI:
     if auth_data is None:
         auth_data = load_auth()
@@ -44,6 +59,8 @@ def make_api(auth_data: AuthData | None = None) -> TidalAPI:
     assert auth_data.refresh_token, "No refresh token."
     assert auth_data.user_id, "No user ID."
     assert auth_data.country_code, "No country code."
+
+    ensure_valid_token(auth_data)
 
     refresh_token = auth_data.refresh_token
 
